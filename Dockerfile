@@ -70,7 +70,8 @@ RUN apt-get update -yq && \
   apt-get -yq --no-install-recommends install maven && \
 # Install SapMachine JDK
   wget -q -O - https://dist.sapmachine.io/debian/sapmachine.key | gpg --dearmor -o /etc/apt/trusted.gpg.d/sapmachine.gpg && \
-	echo "deb [signed-by=/etc/apt/trusted.gpg.d/sapmachine.gpg] http://dist.sapmachine.io/debian/amd64/ ./" > /etc/apt/sources.list.d/sapmachine.list && \
+	# echo "deb [signed-by=/etc/apt/trusted.gpg.d/sapmachine.gpg] http://dist.sapmachine.io/debian/amd64/ ./" > /etc/apt/sources.list.d/sapmachine.list && \
+	echo "deb [signed-by=/etc/apt/trusted.gpg.d/sapmachine.gpg] http://dist.sapmachine.io/debian/$(dpkg --print-architecture)/ ./" > /etc/apt/sources.list.d/sapmachine.list && \
 	apt-get update -yq && \
 	apt-get install -yq "sapmachine-${SAPMACHINE_VERSION?}-jdk" && \
 # Make sure, sapmachine jdk is used by default
@@ -81,9 +82,9 @@ RUN apt-get update -yq && \
   wget -q -O - "https://packages.cloudfoundry.org/debian/cli.cloudfoundry.org.key" | gpg --dearmor -o /etc/apt/trusted.gpg.d/cloudfoundry.gpg && \
 	echo "deb [signed-by=/etc/apt/trusted.gpg.d/cloudfoundry.gpg] https://packages.cloudfoundry.org/debian stable main" > /etc/apt/sources.list.d/cloudfoundry-cli.list && \
 	apt-get update -yq && \
-	apt-get install -yq cf-cli && \
+	apt-get install -yq cf8-cli && \
 # ...so that "cf deploy" is available
-	cf install-plugin multiapps -f && \
+	#cf install-plugin multiapps -f && \
 # Install SAP Cloud Platform Neo Environment SDK (https://tools.hana.ondemand.com/#cloud)
 	wget -nv --output-document="$HOME/neo-java-web-sdk.zip" --no-cookies --header "Cookie: eula_3_2_agreed=tools.hana.ondemand.com/developer-license-3_2.txt" "$NEO_SDK_URL" && \
 	unzip -q -o "$HOME/neo-java-web-sdk.zip" -d "$NEO_SDK_HOME" && \
