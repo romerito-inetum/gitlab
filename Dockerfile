@@ -29,7 +29,7 @@ RUN apt-get update -yq && \
 		wget \
 		zip && \
 # Disable Python virtual environments warning
-	rm "/usr/lib/python3.12/EXTERNALLY-MANAGED" && \
+	# rm "/usr/lib/python3.12/EXTERNALLY-MANAGED" && \
 # Create storage locations
 	mkdir -p "$MTA_BUILDER_HOME" && \
 # Install Node.js \
